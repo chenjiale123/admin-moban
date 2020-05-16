@@ -1,9 +1,17 @@
 import request from '../utils/request';
 
-export const login = (ph,pwd) => {
+export const login = (data) => {
     return request({
-        url: '/api/QianYi/login?loginPhone='+ph+'&loginPwd='+pwd ,
+        url: '/api/login/login' ,
         method: 'post',
-       
+       data
+    });
+};
+
+export const getCode = () => {
+    return request({
+        url: '/api/login/getRandcode' ,
+        method: 'get',
+        responseType: "arraybuffer"
     });
 };
