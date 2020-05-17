@@ -37,6 +37,11 @@ export default new Router({
                     component: () => import( '../components/page/user/findUserList.vue'),
                     meta: { title: '用户管理' }
                 },
+                {
+                    path: '/dept/findDeptTree',
+                    component: () => import( '../components/page/dept/findDeptTree.vue'),
+                    meta: { title: '部门管理' }
+                },
                 
             ]
         },
