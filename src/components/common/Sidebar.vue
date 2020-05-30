@@ -1,9 +1,10 @@
 <template>
     <div class="sidebar">
+
         <el-menu
             class="sidebar-el-menu"
-            :default-active="onRoutes"
-            :collapse="collapse"
+            :default-active="$route.path"
+        
             background-color="#324157"
             text-color="#bfcbd9"
             active-text-color="#20a0ff"
@@ -11,40 +12,55 @@
             router
         >
             <template v-for="item in menu1">
-                <template v-if="item.submenu">
-                    <el-submenu :index="item.url+''" :key="item.url">
+                <template >
+                    <el-submenu :index="item.id+''" :key="item.id" >
                         <template slot="title">
-                            <!-- <i :class="item.icon"></i> -->
+                    
                             <span slot="name">{{ item.name }}</span>
                         </template>
                         <template v-for="subItem in item.submenu" >
                             <el-submenu
                                 v-if="subItem.submenu"
-                                :index="subItem.url+''"
-                                :key="subItem.url"
+                                :index="subItem.id+''"
+                                :key="subItem.id"
                             >
                                 <template slot="title" >{{ subItem.name }}</template>
+
+                        <template  v-for="threeItem in subItem.submenu" >
+                            <el-submenu
+                                v-if="threeItem.submenu"
+                                :index="threeItem.id+''"
+                                :key="threeItem.id"
+                            >
+                                <template slot="title" >{{ threeItem.name }}</template>
                                 <el-menu-item
                                 
-                                    v-for="(threeItem,i) in subItem.submenu"
+                                    v-for="(fourItem,i) in threeItem.submenu"
                                     :key="i"
+                                    :index="fourItem.url+''"
+                                >{{ fourItem.name }}</el-menu-item>
+                            </el-submenu>
+                           <el-menu-item
+                                   v-else
+                                   
+                                    :key="threeItem.url+''"
                                     :index="threeItem.url+''"
                                 >{{ threeItem.name }}</el-menu-item>
+                        </template>
+
+
+
+                              
                             </el-submenu>
                             <el-menu-item
                                 v-else
-                                :index="subItem.url"
-                                :key="subItem.url"
+                                :index="subItem.url+''"
+                                :key="subItem.url+''"
                             >{{ subItem.name }}</el-menu-item>
                         </template>
                     </el-submenu>
                 </template>
-                <template v-else>
-                    <el-menu-item :index="item.url" :key="item.url">
-                        <!-- <i :class="item.icon"></i> -->
-                        <span slot="name">{{ item.name }}</span>
-                    </el-menu-item>
-                </template>
+       
             </template>
         </el-menu>
     </div>
@@ -56,7 +72,7 @@ import Cookies from 'js-cookie'
 export default {
     data() {
         return {
-            collapse: false,
+            // collapse: false,
             menu1:[],
           
         };
@@ -67,10 +83,11 @@ export default {
         }
     },
     created() {
+   
         // 通过 Event Bus 进行组件间通信，来折叠侧边栏
          let cookies=JSON.parse( sessionStorage.getItem('menu'))
-         console.log(cookies)
          this.menu1=cookies
+           
         bus.$on('collapse', msg => {
             this.collapse = msg;
             bus.$emit('collapse-content', msg);
@@ -87,13 +104,15 @@ export default {
     top: 70px;
     bottom: 0;
     overflow-y: scroll;
+    width: 250px;
+    z-index: 9999;
 }
 .sidebar::-webkit-scrollbar {
     width: 0;
 }
-.sidebar-el-menu:not(.el-menu--collapse) {
+/* .sidebar-el-menu:not(.el-menu--collapse) {
     width: 250px;
-}
+} */
 .sidebar > ul {
     height: 100%;
 }

@@ -2,7 +2,7 @@
     <div class="wrapper">
         <v-head></v-head>
         <v-sidebar></v-sidebar>
-        <div class="content-box" :class="{'content-collapse':collapse}">
+        <div class="content-box ">
             <v-tags></v-tags>
             <div class="content">
                 <transition name="move" mode="out-in">
@@ -25,7 +25,7 @@ export default {
     data() {
         return {
             tagsList: [],
-            collapse: false
+            collapse: true
         };
     },
     components: {

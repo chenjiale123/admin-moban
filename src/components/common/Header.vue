@@ -2,10 +2,10 @@
     <div class="header">
         <!-- 折叠按钮 -->
         <div class="collapse-btn" @click="collapseChage">
-            <i v-if="!collapse" class="el-icon-s-fold"></i>
-            <i v-else class="el-icon-s-unfold"></i>
+            <!-- <i v-if="!collapse" class="el-icon-s-fold"></i>
+            <i v-else class="el-icon-s-unfold"></i> -->
         </div>
-        <div class="logo">后台管理系统</div>
+        <div class="logo">洁佳城市社区服务系统</div>
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 全屏显示 -->
@@ -28,9 +28,9 @@
                     <span class="btn-bell-badge" v-if="message"></span>
                 </div>
                 <!-- 用户头像 -->
-                <div class="user-avator">
-                    <img src="../../assets/img/img.jpg" />
-                </div>
+                <!-- <div class="user-avator">
+                    <img :src="avater" />
+                </div> -->
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
@@ -50,18 +50,21 @@
 </template>
 <script>
 import bus from '../common/bus';
+import Cookies from 'js-cookie'
+
 export default {
     data() {
         return {
             collapse: false,
             fullscreen: false,
-            name: 'linxin',
-            message: 2
+            name: '你好',
+            message: 2,
+         
         };
     },
     computed: {
         username() {
-            let username = localStorage.getItem('ms_username');
+            let username =  JSON.parse(sessionStorage.getItem('user')).username
             return username ? username : this.name;
         }
     },
@@ -69,7 +72,9 @@ export default {
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command == 'loginout') {
-                localStorage.removeItem('ms_username');
+                sessionStorage.removeItem('menu');
+                 sessionStorage.removeItem('user');
+                 Cookies.remove('token')
                 this.$router.push('/login');
             }
         },
@@ -132,6 +137,8 @@ export default {
     float: left;
     width: 250px;
     line-height: 70px;
+    margin-left: 20px;
+
 }
 .header-right {
     float: right;

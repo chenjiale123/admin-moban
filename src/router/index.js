@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 
 Vue.use(Router);
 
-export default new Router({
+const router= new Router({
     routes: [
         {
             path: '/',
@@ -13,7 +13,7 @@ export default new Router({
       
        
         {
-            path: '',
+            path: '/',
             component: () => import(/* webpackChunkName: "home" */ '../components/common/Home.vue'),
             meta: { title: '自述文件' },
             children: [
@@ -42,6 +42,37 @@ export default new Router({
                     component: () => import( '../components/page/dept/findDeptTree.vue'),
                     meta: { title: '部门管理' }
                 },
+                {
+                    path: '/dictionary/findDictionaryValList',
+                    component: () => import( '../components/page/dictionary/findDictionaryValList.vue'),
+                    meta: { title: '字典数据' }
+                },
+                {
+                    path: '/dictionary/findDictionaryList',
+                    component: () => import( '../components/page/dictionary/findDictionaryList.vue'),
+                    meta: { title: '字典类型' }
+                },
+                {
+                    path: '/userlog/findUserOperationLogList',
+                    component: () => import( '../components/page/userlog/findUserOperationLogList.vue'),
+                    meta: { title: '操作日志' }
+                },
+                {
+                    path: '/userLog/findUserLoginLogList',
+                    component: () => import( '../components/page/userlog/findUserLoginLogList.vue'),
+                    meta: { title: '登录日志' }
+                },
+                {
+                    path: '/userLog/findUserExceptionLogList',
+                    component: () => import( '../components/page/userlog/findUserExceptionLogList.vue'),
+                    meta: { title: '异常日志' }
+                },
+                {
+                    path: '/userLog/findClientExceptionLogList',
+                    component: () => import( '../components/page/userlog/findClientExceptionLogList.vue'),
+                    meta: { title: '客户端异常日志' }
+                },
+
                 
             ]
         },
@@ -55,4 +86,18 @@ export default new Router({
         //     redirect: '/404'
         // }
     ]
+
+
 });
+
+
+router.beforeEach(function(to, from, next) {
+
+    if (!Cookies.get("token")) {
+        if (to.path !== '/login') {
+            return next('/login')
+        }
+    }
+    next()
+})
+export default router

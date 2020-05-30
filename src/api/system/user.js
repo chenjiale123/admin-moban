@@ -4,7 +4,7 @@ import { praseStrEmpty } from "@/utils/ruoyi";
 // 查询用户列表
 export function listUser(query) {
   return request({
-    url: '/system/user/list',
+    url: '/api/user/findUserList',
     method: 'get',
     params: query
   })
@@ -13,34 +13,38 @@ export function listUser(query) {
 // 查询用户详细
 export function getUser(userId) {
   return request({
-    url: '/system/user/' + praseStrEmpty(userId),
-    method: 'get'
+    url: '/api/user/findUserDetail' ,
+    method: 'get',
+    params:userId
   })
 }
 
 // 新增用户
-export function addUser(data) {
+export function addUser(loginid,username,phone,deptid,sex,education,provinceId,cityId,areaId,address,password,roles,form) {
   return request({
-    url: '/system/user',
+    url: '/api/user/addUser?loginid='+loginid+'&username='+username+'&phone='+phone+'&deptid='+deptid+'&sex='+sex+'&education='+education+'&provinceId='+provinceId+"&cityId="+cityId
+     +"&areaId="+areaId+'&address='+address+'&password='+password+'&roles='+roles,
     method: 'post',
-    data: data
+    data: form
   })
 }
 
 // 修改用户
-export function updateUser(data) {
+export function updateUser(id,loginid,username,phone,deptid,sex,education,provinceId,cityId,areaId,address,password,roles,form) {
   return request({
-    url: '/system/user',
-    method: 'put',
-    data: data
+    url: '/api/user/updUser?loginid='+loginid+"&id="+id+'&username='+username+'&phone='+phone+'&deptid='+deptid+'&sex='+sex+'&education='+education+'&provinceId='+provinceId+"&cityId="+cityId
+     +"&areaId="+areaId+'&address='+address+'&password='+password+'&roles='+roles,
+    method: 'post',
+    data: form
   })
 }
 
 // 删除用户
 export function delUser(userId) {
   return request({
-    url: '/system/user/' + userId,
-    method: 'delete'
+    url: '/api/user/delUser' ,
+    method: 'post',
+    params:userId
   })
 }
 
@@ -67,15 +71,12 @@ export function resetUserPwd(userId, password) {
 }
 
 // 用户状态修改
-export function changeUserStatus(userId, status) {
-  const data = {
-    userId,
-    status
-  }
+export function changeUserStatus(data) {
+
   return request({
-    url: '/system/user/changeStatus',
-    method: 'put',
-    data: data
+    url: '/api/user/updUserStatus',
+    method: 'post',
+    params: data
   })
 }
 
@@ -110,14 +111,22 @@ export function updateUserPwd(oldPassword, newPassword) {
 }
 
 // 用户头像上传
-export function uploadAvatar(data) {
+export function uploadAvatar(id,isFont,data) {
   return request({
-    url: '/system/user/profile/avatar',
+    url: '/api/user/uploadCardImage?id='+id+'&isFont='+isFont,
     method: 'post',
-    data: data
+    data : data
   })
 }
 
+// 用户字典值
+export function findSelect(data) {
+  return request({
+    url: '/api/common/findDictionaryValueSelect',
+    method: 'get',
+    params: data
+  })
+}
 // 下载用户导入模板
 export function importTemplate() {
   return request({
